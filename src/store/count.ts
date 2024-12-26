@@ -14,11 +14,11 @@ interface State {
   max: number;
 }
 interface Actions {
-  actions: {
-    increase: () => void;
-    decrease: () => void;
-    resetState: () => void;
-  };
+  // actions: {
+  increase: () => void;
+  decrease: () => void;
+  resetState: () => void;
+  // };
 }
 
 const initialState: State = {
@@ -29,23 +29,28 @@ const initialState: State = {
 };
 
 export const useCountStore = create<State & Actions>()(
-  subscribeWithSelector(
-    immer((set) => ({
-      ...initialState,
-      actions: {
-        increase: () => {
-          set((state) => {
-            state.count += 1;
-          });
-        },
-        decrease: () => {
-          set((state) => {
-            state.count -= 1;
-          });
-        },
-        resetState: () => set(initialState),
-      },
-    }))
+  devtools(
+    persist(
+      subscribeWithSelector(
+        immer((set) => ({
+          ...initialState,
+          increase: () => {
+            set((state) => {
+              state.count += 1;
+            });
+          },
+          decrease: () => {
+            set((state) => {
+              state.count -= 1;
+            });
+          },
+          resetState: () => set(initialState),
+        }))
+      ),
+      {
+        name: "countStore",
+      }
+    )
   )
 );
 

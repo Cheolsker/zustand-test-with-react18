@@ -2,10 +2,8 @@ import { useEffect } from "react";
 import { useCountStore } from "../store/count";
 
 export function Count() {
-  const count = useCountStore((state) => state.count);
-  const double = useCountStore((state) => state.double);
-  const { increase, decrease, resetState } = useCountStore(
-    (state) => state.actions
+  const { count, double, increase, decrease, resetState } = useCountStore(
+    (state) => state
   );
 
   useEffect(() => {
