@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { subscribeWithSelector } from "zustand/middleware";
+import {
+  subscribeWithSelector,
+  persist,
+  createJSONStorage,
+  devtools,
+} from "zustand/middleware";
 
 interface State {
   count: number;
