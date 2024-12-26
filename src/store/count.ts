@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
 interface State {
   count: number;
@@ -21,15 +22,21 @@ const initialState: State = {
   max: 99,
 };
 
-export const useCountStore = create<State & Actions>((set, get) => ({
-  ...initialState,
-  actions: {
-    increase: () => {
-      set((state) => ({ count: state.count + 1 }));
+export const useCountStore = create<State & Actions>()(
+  immer((set) => ({
+    ...initialState,
+    actions: {
+      increase: () => {
+        set((state) => {
+          state.count += 1;
+        });
+      },
+      decrease: () => {
+        set((state) => {
+          state.count -= 1;
+        });
+      },
+      resetState: () => set(initialState),
     },
-    decrease: () => {
-      set((state) => ({ count: state.count - 1 }));
-    },
-    resetState: () => set(initialState),
-  },
-}));
+  }))
+);
